@@ -1,0 +1,20 @@
+---
+language: ruby
+dist: trusty
+cache:
+  bundler: true
+  directories:
+    - public/assets
+    - tmp/cache
+
+addons:
+  postgresql: "9.6"
+
+env:
+  global:
+    - LOG_LEVEL=error
+    - MONEY_ON_RAILS_DB_TEST=postgresql://travis:@localhost/travis_ci_test
+
+script:
+  - bundle exec rake db:setup
+  - bundle exec rspec
