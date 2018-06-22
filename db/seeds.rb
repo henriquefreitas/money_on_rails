@@ -1,7 +1,13 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+Category.create([{ name: 'Transportation' }, { name: 'Food' }])
+Category.create([{ name: 'Fuel', group: Category.first }, { name: 'Groceries', group: Category.last }])
+
+Payee.create([{ name: 'John Doe' }, { name: 'Mary Jane' }])
+
+tenant = Tenant.create(subdomain: 'test')
+
+tenant.accounts << Bank.create(tenant: Tenant.first, name: 'My Bank', opening_balance: 100, balance: 100)
+
+transaction = Account.first.transactions.create(date: Date.today, payee: Payee.first, amount: 50, memo: 'Test 1')
+transaction.category_transactions.create(category: Category.find_by(name: 'Fuel'), amount: 40)
+transaction.category_transactions.create(category: Category.find_by(name: 'Groceries'), amount: 10)
+
